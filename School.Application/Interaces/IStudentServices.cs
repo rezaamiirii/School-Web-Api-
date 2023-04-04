@@ -1,19 +1,24 @@
-﻿using School.Domain.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using School.Domain.DTOs.Student;
+using School.Domain.Models.Account;
 
 namespace School.Application.Interaces
 {
     public interface IStudentServices
     {
+        #region account
         Task<RegisterStudentResult> RegisterStudent(RegisterStudentDto register);
-        //Task<LoginUserResult> LoginUser(LoginUserViewModel loginUser);
-        //Task<User> GetUserByPhoneNumber(string number);
-        //Task<User> GetUserByMobileActiveCode(string mobileActiveCode);
-        //Task<User> GetUserById(long userId);
-        //Task<ActiveAccountResult> ActiveAccount(ActiveAccountViewModel activeAccount);
+        Task<LoginStudentResult> LoginStudent(LoginStudentDTO loginStudent);
+        Task<Student> GetStudentByPhoneNumber(string number);
+        Task<Student> GetStudentById(int studentId);
+        Task<ActiveAccountResult> ActiveAccount(ActiveAccountDTO activeAccount);
+        Task<Student> GetStudentByMobileActiveCode(string mobileActiveCode);
+        Task<forgetPassResult> ForgetPass(ForgetPasswordDTO forgetPassword);
+        Task<resetPasswordResult> ResettPasswordFromForget(ResetPasswordDTO resetPassword, string mobileActiveCode);
+        #endregion
+        #region profile
+        Task<EditStudentProfileDTO> GetEditStudentProfile(int studentId);
+        Task<EditStudentProfileResult> EditProfile(int studentId, EditStudentProfileDTO editUserProfile);
+       
+        #endregion
     }
 }

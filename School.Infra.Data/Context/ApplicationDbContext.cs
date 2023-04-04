@@ -18,6 +18,20 @@ namespace Shop.Infra.Data.Context
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Admin>()
+                .HasData(new Admin()
+                {
+                    Id = 1,
+                    FirstName="Arash",
+                    LastName="Ghanavati",
+                    IsDelete=false,
+                    Password="A66106518@",
+                    PhoneNumber="09163008552",
+                    CreateDate=DateTime.Now,
+
+                });
+
+
             modelBuilder.Entity<MainStudentRegister>()
             .HasOne(o => o.Student)
             .WithOne(o => o.MainStudentRegister);

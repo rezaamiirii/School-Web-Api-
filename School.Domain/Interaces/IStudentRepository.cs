@@ -13,8 +13,13 @@ namespace School.Domain.Interaces
         Task<bool> IsStudentExistByPhoneNumber(string phoneNumber);
 
         Task AddStudent(Student student);
-
+        void UpdateStudent(Student student);
         Task SaveChanges();
+
+        Task<Student> GetStudentByPhoneNumber(string phoneNumber);
+        Task<Student> GetStudentByMobileActiveCode(string activeCode);
+        Task<Student> GetStudentById(int id);
+
 
     }
 }

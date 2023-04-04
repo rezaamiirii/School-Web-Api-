@@ -1,15 +1,14 @@
-﻿using Shop.Domain.Models.BaseEntities;
+﻿using School.Domain.Models.Account;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace School.Domain.Models.Account
+namespace School.Domain.DTOs.MapperDTO
 {
-    public class MainStudentRegister:BaseEntity
+    public class MainStudentRegisterDTO
     {
-
         #region Student Info
 
         public string? FathersName { get; set; }
@@ -33,7 +32,6 @@ namespace School.Domain.Models.Account
 
         #endregion
 
-
         #region  ّFather And Mother's Info
 
         public FathersMajor FathersMajor { get; set; }
@@ -51,7 +49,7 @@ namespace School.Domain.Models.Account
 
         public string? MotherPhoneNumber { get; set; }
 
-       
+
 
         public bool FatherPhoneNumberIsHisOwn { get; set; }
         public bool MotherPhoneNumberIsHerOwn { get; set; }
@@ -71,33 +69,5 @@ namespace School.Domain.Models.Account
         public string NameOfFormFillOuter { get; set; }
 
         #endregion
-        #region relations
-
-        public Student? Student { get; set; }
-
-
-        #endregion
-       
-    }
-    public enum FathersMajor
-    {
-        SubAssociates,
-        Associates,
-        SuperAssociates,
-        Bachelor,
-        Master,
-        Doctoral,
-        Seminary
-
-
-    }
-    public enum PlaceState
-    {
-        Personal,
-        Rental,
-        Companies,
-        Dormitory,
-        RelativesHouse,
-        Other
     }
 }

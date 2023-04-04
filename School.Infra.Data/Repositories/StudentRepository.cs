@@ -51,6 +51,30 @@ namespace School.Infra.Data.Repositories
                  _context.SaveChangesAsync();
         }
 
+        public async Task<Student> GetStudentByPhoneNumber(string phoneNumber)
+        {
+            return await _context.Students.AsQueryable()
+                .Where(x=>x.StudentPhoneNumber==phoneNumber).SingleOrDefaultAsync();
+        }
+
+        public void UpdateStudent(Student student)
+        {
+            _context.Students.Update(student);
+        }
+
+        public async Task<Student> GetStudentById(int id)
+        {
+          return  await _context.Students.AsQueryable()
+                .Where(x => x.Id == id).SingleOrDefaultAsync();
+
+        }
+
+        public async Task<Student> GetStudentByMobileActiveCode(string activeCode)
+        {
+            return await _context.Students.AsQueryable()
+                .Where(x => x.MobileActiveCode == activeCode).SingleOrDefaultAsync();
+        }
+
         #endregion
     }
 }
