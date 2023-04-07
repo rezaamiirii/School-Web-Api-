@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using School.Application.Interaces;
+using School.Domain.DTOs.Admin.Account;
+using School.Domain.DTOs.Fee;
 using School.Domain.DTOs.Student;
 using School.Domain.Interaces;
 using School.Domain.Models.Account;
@@ -154,11 +156,10 @@ namespace School.Application.Services
         {
             var student = await _studentRepository.GetStudentById(studentId);
             if (student == null) return EditStudentProfileResult.NotFound;
-            //student.FirstName = editUserProfile.FirstName;
-            //student.LastName = editUserProfile.LastName;
 
-            _mapper.Map<Student>(editUserProfile);
-            _studentRepository.UpdateStudent(student);
+            var result = _mapper.Map(editUserProfile, student);
+
+            _studentRepository.UpdateStudent(result);
             await _studentRepository.SaveChanges();
             return EditStudentProfileResult.Success;
         }
@@ -180,9 +181,97 @@ namespace School.Application.Services
             return resetPasswordResult.Success;
         }
 
-       
+        public async Task<IList<FilteringStudentDto>> FilterStudnets(FilterStudentDTO filter)
+        {
+            var students= await _studentRepository.FilterStudents(filter);
+           var result=  _mapper.Map<IList<FilteringStudentDto>>(students);
+            return result;
+        }
 
-       
+        public async Task<EditUserFromAdminDTO> GetEditStudentFromAdmin(int studentId)
+        {
+           return await _studentRepository.GetEditStudentFromAdmin(studentId);
+        }
+
+        public async Task<EditStudentFromAdminResult> EditStudentFromAdmin(EditUserFromAdminDTO editUser)
+        {
+            var student = await _studentRepository.GetStudentById(editUser.Id);
+            if (student == null) return EditStudentFromAdminResult.NotFound;
+
+           var result= _mapper.Map(editUser, student);
+
+            if (!string.IsNullOrEmpty(editUser.Password))
+            {
+                result.Password = _passwordHelper.HashPassword(editUser.Password);
+            }
+            _studentRepository.UpdateStudent(result);
+           
+            await _studentRepository.SaveChanges();
+
+            return EditStudentFromAdminResult.Success;
+        }
+
+        public async Task<bool> DeleteStudent(int studentId)
+        {
+            return await _studentRepository.DeleteStudent(studentId);
+        }
+
+        public async Task<bool> RecoverStudent(int studentId)
+        {
+            return await _studentRepository.RecoverStudent(studentId);
+        }
+
+        public async Task<bool> ChangeToStudent(int studentId)
+        {
+            return await _studentRepository.ChangeToStudent(studentId);
+        }
+
+        public async Task<bool> ChangeToSubStudent(int studentId)
+        {
+            return await _studentRepository.ChangeToSubStudent(studentId);
+        }
+
+        public async Task<int> ChargeFee(int studentId, PayFeeDTO payFee, string description)
+        {
+            var student = await _studentRepository.GetStudentById(studentId);
+            if (student == null) return 0;
+
+            var wallet = new StudentFee()
+            {
+                StudentId = studentId,
+                Amount = payFee.Amount,
+                Description = description,
+                IsPay = false,
+               
+            };
+
+            await _studentRepository.CreateStudentFee(wallet);
+            await _studentRepository.SaveChanges();
+
+            return wallet.Id;
+        }
+
+        public async Task<bool> UpdateStudentFeeForCharge(StudentFee studentFee)
+        {
+            if (studentFee != null)
+            {
+                studentFee.IsPay = true;
+
+                _studentRepository.UpdateStudentFee(studentFee);
+                await _studentRepository.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<StudentFee> GetStudentFeeById(int StudentFeeId)
+        {
+           return await _studentRepository.GetStudentFeeById(StudentFeeId);
+        }
+
+
+
+
 
 
 

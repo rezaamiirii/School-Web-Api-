@@ -1,4 +1,6 @@
-﻿using School.Domain.DTOs.Student;
+﻿using School.Domain.DTOs.Admin.Account;
+using School.Domain.DTOs.Fee;
+using School.Domain.DTOs.Student;
 using School.Domain.Models.Account;
 
 namespace School.Application.Interaces
@@ -18,7 +20,28 @@ namespace School.Application.Interaces
         #region profile
         Task<EditStudentProfileDTO> GetEditStudentProfile(int studentId);
         Task<EditStudentProfileResult> EditProfile(int studentId, EditStudentProfileDTO editUserProfile);
-       
+
         #endregion
+
+        #region admin
+        Task<IList<FilteringStudentDto>> FilterStudnets(FilterStudentDTO filter);
+         
+
+        Task<EditUserFromAdminDTO> GetEditStudentFromAdmin(int studentId);
+        Task<EditStudentFromAdminResult> EditStudentFromAdmin(EditUserFromAdminDTO editUser);
+        Task<bool> DeleteStudent(int studentId);
+
+        Task<bool> RecoverStudent(int studentId);
+        Task<bool> ChangeToStudent(int studentId);
+        Task<bool> ChangeToSubStudent(int studentId);
+        #endregion
+
+        #region Payfee
+
+        Task<int> ChargeFee(int studentId, PayFeeDTO payFee, string description);
+        Task<StudentFee> GetStudentFeeById(int StudentFeeId);
+        Task<bool> UpdateStudentFeeForCharge(StudentFee studentFee);
+        #endregion
+
     }
 }

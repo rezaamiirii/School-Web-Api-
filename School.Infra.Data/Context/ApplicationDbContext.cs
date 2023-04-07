@@ -21,13 +21,14 @@ namespace Shop.Infra.Data.Context
             modelBuilder.Entity<Admin>()
                 .HasData(new Admin()
                 {
-                    Id = 1,
+                    Id = 5,
                     FirstName="Arash",
                     LastName="Ghanavati",
                     IsDelete=false,
                     Password="A66106518@",
                     PhoneNumber="09163008552",
                     CreateDate=DateTime.Now,
+                    IsAdmin=true,
 
                 });
 
@@ -42,8 +43,11 @@ namespace Shop.Infra.Data.Context
 
 
         public DbSet<Student> Students { get; set; }
+        public DbSet<StudentFee>  StudentFees { get; set; }
         public DbSet<Admin> Admins { get; set; }
         public DbSet<MainStudentRegister>  MainStudentRegisters { get; set; }
+
+
         
         #endregion
 

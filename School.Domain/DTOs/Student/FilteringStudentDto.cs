@@ -1,15 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace School.Domain.DTOs.Student
 {
-    public class EditStudentProfileDTO
+    public class FilteringStudentDto
     {
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public string? NationalCode { get; set; }
         public DateTime Birthday { get; set; }
-
-        #region pre-registration
+        public string? StudentPhoneNumber { get; set; }
 
         public decimal AverageOfNineLevel { get; set; }
         public decimal MarkOfMath { get; set; }
@@ -20,14 +23,5 @@ namespace School.Domain.DTOs.Student
         public string? FirstMajorPriority { get; set; }
         public string? SecondMajorPriority { get; set; }
         public string? ThirdMajorPriority { get; set; }
-
-
-        #endregion
-
-    }
-    public enum EditStudentProfileResult
-    {
-        NotFound,
-        Success
     }
 }

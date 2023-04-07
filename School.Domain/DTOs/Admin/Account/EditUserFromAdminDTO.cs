@@ -1,31 +1,23 @@
-﻿using Shop.Domain.Models.BaseEntities;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace School.Domain.Models.Account
+namespace School.Domain.DTOs.Admin.Account
 {
-    public class Student : BaseEntity
+    public class EditUserFromAdminDTO
     {
-
-        #region Studenet's Info
+        public int Id { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public string? NationalCode { get; set; }
         public DateTime Birthday { get; set; }
-
         public string? StudentPhoneNumber { get; set; }
-        public string? MobileActiveCode { get; set; }
         public string? Password { get; set; }
         public bool IsActive { get; set; }
         public bool IsBlock { get; set; }
         public bool IsStudent { get; set; }
-        public bool IsDelete { get; set; }
-
-        #endregion
 
         #region pre-registration
 
@@ -41,27 +33,12 @@ namespace School.Domain.Models.Account
 
 
         #endregion
-
-        #region relations
-
-        public MainStudentRegister?   MainStudentRegister { get; set; }
-
-        public ICollection<StudentFee>?  StudentFees { get; set; }
-
-        #endregion
-
-
     }
-
-    public enum StateOfExSchool
+    public enum EditStudentFromAdminResult
     {
-      First,
-      Second,
-      Third,
-      Fourth,
-      Other
+        Success,
+        NotFound,
+        NotExistRoles
+
     }
-
-
 }
-

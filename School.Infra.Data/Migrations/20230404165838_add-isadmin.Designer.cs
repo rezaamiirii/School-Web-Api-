@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Shop.Infra.Data.Context;
 
@@ -11,9 +12,10 @@ using Shop.Infra.Data.Context;
 namespace School.Infra.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230404165838_add-isadmin")]
+    partial class addisadmin
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,10 +60,10 @@ namespace School.Infra.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 5,
-                            CreateDate = new DateTime(2023, 4, 5, 12, 18, 7, 131, DateTimeKind.Local).AddTicks(4514),
+                            Id = 1,
+                            CreateDate = new DateTime(2023, 4, 4, 20, 28, 38, 568, DateTimeKind.Local).AddTicks(5566),
                             FirstName = "Arash",
-                            IsAdmin = true,
+                            IsAdmin = false,
                             IsDelete = false,
                             LastName = "Ghanavati",
                             Password = "A66106518@",
@@ -268,39 +270,6 @@ namespace School.Infra.Data.Migrations
                     b.ToTable("Students");
                 });
 
-            modelBuilder.Entity("School.Domain.Models.Account.StudentFee", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("Amount")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsPay")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StudentId");
-
-                    b.ToTable("StudentFee");
-                });
-
             modelBuilder.Entity("School.Domain.Models.Account.MainStudentRegister", b =>
                 {
                     b.HasOne("School.Domain.Models.Account.Student", "Student")
@@ -312,22 +281,9 @@ namespace School.Infra.Data.Migrations
                     b.Navigation("Student");
                 });
 
-            modelBuilder.Entity("School.Domain.Models.Account.StudentFee", b =>
-                {
-                    b.HasOne("School.Domain.Models.Account.Student", "Student")
-                        .WithMany("StudentFees")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Student");
-                });
-
             modelBuilder.Entity("School.Domain.Models.Account.Student", b =>
                 {
                     b.Navigation("MainStudentRegister");
-
-                    b.Navigation("StudentFees");
                 });
 #pragma warning restore 612, 618
         }

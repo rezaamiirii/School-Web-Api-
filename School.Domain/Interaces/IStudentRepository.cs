@@ -1,9 +1,11 @@
-﻿using School.Domain.Models.Account;
+﻿using School.Domain.DTOs.Admin.Account;
+using School.Domain.Models.Account;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace School.Domain.Interaces
 {
@@ -20,6 +22,21 @@ namespace School.Domain.Interaces
         Task<Student> GetStudentByMobileActiveCode(string activeCode);
         Task<Student> GetStudentById(int id);
 
+        #region admin
+        Task<IPagedList<Student>> FilterStudents(FilterStudentDTO filter);
+        Task<EditUserFromAdminDTO> GetEditStudentFromAdmin(int studentId);
+        Task<bool> DeleteStudent(int studentId);
+        Task<bool> RecoverStudent(int studentId);
+        Task<bool> ChangeToStudent(int studentId);
+        Task<bool> ChangeToSubStudent(int studentId);
 
+        #endregion
+
+
+        #region PayFee
+        Task CreateStudentFee(StudentFee studentFee);
+        Task<StudentFee> GetStudentFeeById(int StudentFeeId);
+        void UpdateStudentFee(StudentFee studentFee);
+        #endregion
     }
 }

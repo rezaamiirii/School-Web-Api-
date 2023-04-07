@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using School.Domain.DTOs.Admin.Account;
 using School.Domain.DTOs.MapperDTO;
 using School.Domain.DTOs.Student;
 using School.Domain.Models.Account;
@@ -17,7 +18,8 @@ namespace School.Domain.Profiles
             CreateMap<Student, StudentDTO>().ReverseMap();
             CreateMap<Student, EditStudentProfileDTO>().ReverseMap();
             CreateMap<MainStudentRegister, MainStudentRegisterDTO>().ReverseMap();
-
+            CreateMap<Student,FilteringStudentDto>().ReverseMap();
+            CreateMap<Student, EditUserFromAdminDTO>().ReverseMap();
         }
     }
 }
