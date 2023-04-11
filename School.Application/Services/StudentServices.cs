@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using School.Application.Interaces;
 using School.Domain.DTOs.Admin.Account;
-using School.Domain.DTOs.Fee;
 using School.Domain.DTOs.Student;
 using School.Domain.Interaces;
 using School.Domain.Models.Account;
@@ -231,43 +230,7 @@ namespace School.Application.Services
             return await _studentRepository.ChangeToSubStudent(studentId);
         }
 
-        public async Task<int> ChargeFee(int studentId, PayFeeDTO payFee, string description)
-        {
-            var student = await _studentRepository.GetStudentById(studentId);
-            if (student == null) return 0;
-
-            var wallet = new StudentFee()
-            {
-                StudentId = studentId,
-                Amount = payFee.Amount,
-                Description = description,
-                IsPay = false,
-               
-            };
-
-            await _studentRepository.CreateStudentFee(wallet);
-            await _studentRepository.SaveChanges();
-
-            return wallet.Id;
-        }
-
-        public async Task<bool> UpdateStudentFeeForCharge(StudentFee studentFee)
-        {
-            if (studentFee != null)
-            {
-                studentFee.IsPay = true;
-
-                _studentRepository.UpdateStudentFee(studentFee);
-                await _studentRepository.SaveChanges();
-                return true;
-            }
-            return false;
-        }
-
-        public async Task<StudentFee> GetStudentFeeById(int StudentFeeId)
-        {
-           return await _studentRepository.GetStudentFeeById(StudentFeeId);
-        }
+      
 
 
 

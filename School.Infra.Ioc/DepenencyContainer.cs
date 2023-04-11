@@ -13,10 +13,11 @@ namespace Shop.Infra.IoC
         {
             #region Services
             services.AddScoped<IStudentServices, StudentServices>();
+            services.AddScoped<ISiteService, SiteService>();
             #endregion
-
             #region Repositories
             services.AddScoped<IStudentRepository, StudentRepository>();
+            services.AddScoped<ICollegeRepository, CollegeRepository>();
             #endregion
 
             #region Tools

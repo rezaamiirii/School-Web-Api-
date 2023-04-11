@@ -8,6 +8,8 @@ namespace School.Domain.DTOs.Student
         public string? LastName { get; set; }
         public string? NationalCode { get; set; }
         public DateTime Birthday { get; set; }
+        public string? FatherPhoneNumber { get; set; }
+        public string? MotherPhoneNumber { get; set; }
 
         #region pre-registration
 

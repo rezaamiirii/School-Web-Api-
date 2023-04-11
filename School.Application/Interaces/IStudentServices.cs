@@ -1,5 +1,4 @@
 ﻿using School.Domain.DTOs.Admin.Account;
-using School.Domain.DTOs.Fee;
 using School.Domain.DTOs.Student;
 using School.Domain.Models.Account;
 
@@ -38,9 +37,7 @@ namespace School.Application.Interaces
 
         #region Payfee
 
-        Task<int> ChargeFee(int studentId, PayFeeDTO payFee, string description);
-        Task<StudentFee> GetStudentFeeById(int StudentFeeId);
-        Task<bool> UpdateStudentFeeForCharge(StudentFee studentFee);
+        
         #endregion
 
     }

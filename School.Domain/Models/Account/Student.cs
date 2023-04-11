@@ -18,6 +18,8 @@ namespace School.Domain.Models.Account
         public DateTime Birthday { get; set; }
 
         public string? StudentPhoneNumber { get; set; }
+        public string? FatherPhoneNumber { get; set; }
+        public string? MotherPhoneNumber { get; set; }
         public string? MobileActiveCode { get; set; }
         public string? Password { get; set; }
         public bool IsActive { get; set; }
@@ -45,8 +47,6 @@ namespace School.Domain.Models.Account
         #region relations
 
         public MainStudentRegister?   MainStudentRegister { get; set; }
-
-        public ICollection<StudentFee>?  StudentFees { get; set; }
 
         #endregion
 

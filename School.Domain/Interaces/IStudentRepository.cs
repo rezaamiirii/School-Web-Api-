@@ -33,10 +33,6 @@ namespace School.Domain.Interaces
         #endregion
 
 
-        #region PayFee
-        Task CreateStudentFee(StudentFee studentFee);
-        Task<StudentFee> GetStudentFeeById(int StudentFeeId);
-        void UpdateStudentFee(StudentFee studentFee);
-        #endregion
+       
     }
 }

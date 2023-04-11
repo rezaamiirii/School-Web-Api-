@@ -13,6 +13,8 @@ namespace School.Domain.DTOs.Student
         public string? NationalCode { get; set; }
         public DateTime Birthday { get; set; }
         public string? StudentPhoneNumber { get; set; }
+        public string? FatherPhoneNumber { get; set; }
+        public string? MotherPhoneNumber { get; set; }
 
         public decimal AverageOfNineLevel { get; set; }
         public decimal MarkOfMath { get; set; }

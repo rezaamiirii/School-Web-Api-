@@ -14,6 +14,8 @@ namespace School.Domain.DTOs.Admin.Account
         public string? NationalCode { get; set; }
         public DateTime Birthday { get; set; }
         public string? StudentPhoneNumber { get; set; }
+        public string? FatherPhoneNumber { get; set; }
+        public string? MotherPhoneNumber { get; set; }
         public string? Password { get; set; }
         public bool IsActive { get; set; }
         public bool IsBlock { get; set; }

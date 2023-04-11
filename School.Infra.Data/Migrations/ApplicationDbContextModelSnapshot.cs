@@ -22,6 +22,37 @@ namespace School.Infra.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("School.Domain.Models.Academy.Academy", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ShortDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Academies");
+                });
+
             modelBuilder.Entity("School.Domain.Models.Account.Admin", b =>
                 {
                     b.Property<int>("Id")
@@ -59,7 +90,7 @@ namespace School.Infra.Data.Migrations
                         new
                         {
                             Id = 5,
-                            CreateDate = new DateTime(2023, 4, 5, 12, 18, 7, 131, DateTimeKind.Local).AddTicks(4514),
+                            CreateDate = new DateTime(2023, 4, 9, 12, 22, 40, 432, DateTimeKind.Local).AddTicks(9881),
                             FirstName = "Arash",
                             IsAdmin = true,
                             IsDelete = false,
@@ -212,6 +243,9 @@ namespace School.Infra.Data.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("FatherPhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FirstMajorPriority")
                         .HasColumnType("nvarchar(max)");
 
@@ -245,6 +279,9 @@ namespace School.Infra.Data.Migrations
                     b.Property<string>("MobileActiveCode")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("MotherPhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("NameOfExSchool")
                         .HasColumnType("nvarchar(max)");
 
@@ -268,7 +305,7 @@ namespace School.Infra.Data.Migrations
                     b.ToTable("Students");
                 });
 
-            modelBuilder.Entity("School.Domain.Models.Account.StudentFee", b =>
+            modelBuilder.Entity("School.Domain.Models.News.College", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -276,29 +313,54 @@ namespace School.Infra.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("Amount")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImageName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsPay")
+                    b.Property<string>("ShortDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Colleges");
+                });
+
+            modelBuilder.Entity("School.Domain.Models.News.CollegeGallery", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("CollegeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
-                    b.Property<int>("StudentId")
+                    b.Property<int>("NewsId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StudentId");
+                    b.HasIndex("CollegeId");
 
-                    b.ToTable("StudentFee");
+                    b.ToTable("CollegeGalleries");
                 });
 
             modelBuilder.Entity("School.Domain.Models.Account.MainStudentRegister", b =>
@@ -312,22 +374,23 @@ namespace School.Infra.Data.Migrations
                     b.Navigation("Student");
                 });
 
-            modelBuilder.Entity("School.Domain.Models.Account.StudentFee", b =>
+            modelBuilder.Entity("School.Domain.Models.News.CollegeGallery", b =>
                 {
-                    b.HasOne("School.Domain.Models.Account.Student", "Student")
-                        .WithMany("StudentFees")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("School.Domain.Models.News.College", "College")
+                        .WithMany("CollegeGalleries")
+                        .HasForeignKey("CollegeId");
 
-                    b.Navigation("Student");
+                    b.Navigation("College");
                 });
 
             modelBuilder.Entity("School.Domain.Models.Account.Student", b =>
                 {
                     b.Navigation("MainStudentRegister");
+                });
 
-                    b.Navigation("StudentFees");
+            modelBuilder.Entity("School.Domain.Models.News.College", b =>
+                {
+                    b.Navigation("CollegeGalleries");
                 });
 #pragma warning restore 612, 618
         }

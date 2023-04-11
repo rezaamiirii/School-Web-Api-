@@ -179,20 +179,7 @@ namespace School.Infra.Data.Repositories
             return true;
         }
 
-        public async Task CreateStudentFee(StudentFee studentFee)
-        {
-            await _context.StudentFees.AddAsync(studentFee);
-        }
-        public async Task<StudentFee> GetStudentFeeById(int StudentFeeId)
-        {
-           return await _context.StudentFees.AsQueryable()
-                .Where(x=>x.Id==StudentFeeId).SingleOrDefaultAsync();
-        }
-
-        public void UpdateStudentFee(StudentFee studentFee)
-        {
-            _context.StudentFees.Update(studentFee);
-        }
+        
 
         
 

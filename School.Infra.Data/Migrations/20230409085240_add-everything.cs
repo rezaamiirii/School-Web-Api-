@@ -5,10 +5,28 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace School.Infra.Data.Migrations
 {
-    public partial class addtablestudentadmin : Migration
+    public partial class addeverything : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Academies",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ShortDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsDelete = table.Column<bool>(type: "bit", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Academies", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Admins",
                 columns: table => new
@@ -19,12 +37,31 @@ namespace School.Infra.Data.Migrations
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsAdmin = table.Column<bool>(type: "bit", nullable: false),
                     IsDelete = table.Column<bool>(type: "bit", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Admins", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Colleges",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ShortDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsDelete = table.Column<bool>(type: "bit", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Colleges", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -38,25 +75,48 @@ namespace School.Infra.Data.Migrations
                     NationalCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Birthday = table.Column<DateTime>(type: "datetime2", nullable: false),
                     StudentPhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FatherPhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MotherPhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MobileActiveCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     IsBlock = table.Column<bool>(type: "bit", nullable: false),
                     IsStudent = table.Column<bool>(type: "bit", nullable: false),
-                    AverageOfNineLevel = table.Column<int>(type: "int", nullable: false),
-                    MarkOfMath = table.Column<int>(type: "int", nullable: false),
-                    MarkOfScience = table.Column<int>(type: "int", nullable: false),
-                    MarkOfWorkAndTechnology = table.Column<int>(type: "int", nullable: false),
+                    IsDelete = table.Column<bool>(type: "bit", nullable: false),
+                    AverageOfNineLevel = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    MarkOfMath = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    MarkOfScience = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    MarkOfWorkAndTechnology = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     NameOfExSchool = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FirstMajorPriority = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SecondMajorPriority = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ThirdMajorPriority = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsDelete = table.Column<bool>(type: "bit", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Students", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CollegeGalleries",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NewsId = table.Column<int>(type: "int", nullable: false),
+                    CollegeId = table.Column<int>(type: "int", nullable: true),
+                    IsDelete = table.Column<bool>(type: "bit", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CollegeGalleries", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CollegeGalleries_Colleges_CollegeId",
+                        column: x => x.CollegeId,
+                        principalTable: "Colleges",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -112,6 +172,16 @@ namespace School.Infra.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Admins",
+                columns: new[] { "Id", "CreateDate", "FirstName", "IsAdmin", "IsDelete", "LastName", "Password", "PhoneNumber" },
+                values: new object[] { 5, new DateTime(2023, 4, 9, 12, 22, 40, 432, DateTimeKind.Local).AddTicks(9881), "Arash", true, false, "Ghanavati", "A66106518@", "09163008552" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CollegeGalleries_CollegeId",
+                table: "CollegeGalleries",
+                column: "CollegeId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_MainStudentRegisters_StudentId",
                 table: "MainStudentRegisters",
@@ -122,10 +192,19 @@ namespace School.Infra.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Academies");
+
+            migrationBuilder.DropTable(
                 name: "Admins");
 
             migrationBuilder.DropTable(
+                name: "CollegeGalleries");
+
+            migrationBuilder.DropTable(
                 name: "MainStudentRegisters");
+
+            migrationBuilder.DropTable(
+                name: "Colleges");
 
             migrationBuilder.DropTable(
                 name: "Students");
