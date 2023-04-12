@@ -10,11 +10,11 @@ namespace School.Application.Utils
     {
         #region user avatar
 
-        public static string AcademyOrgin= "/img/academy/orgin/";
-        public static string AcademyOrginServer = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/academy/orgin/");
+        public static string CollegeOrgin= "/img/college/orgin/";
+        public static string CollegeOrginServer = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/college/orgin/");
 
-        public static string AcademyOrginThumb = "/img/Academy/Thumb/";
-        public static string AcademyThumbServer = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/academy/Thumb/");
+        public static string CollegeOrginThumb = "/img/college/Thumb/";
+        public static string CollegeThumbServer = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/college/Thumb/");
 
         #endregion
 

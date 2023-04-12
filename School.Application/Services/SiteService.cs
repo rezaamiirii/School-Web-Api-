@@ -19,14 +19,17 @@ namespace School.Application.Services
     {
         #region constructore
         private readonly ICollegeRepository _collegeRepository;
+        private readonly ICollegeGalleryRepository _collegeGalleryRepository;
 
         private readonly IMapper _mapper;
 
-        public SiteService(IMapper mapper, ICollegeRepository collegeRepository)
+        public SiteService(IMapper mapper, ICollegeRepository collegeRepository, ICollegeGalleryRepository collegeGalleryRepository)
         {
             _mapper = mapper;
             _collegeRepository = collegeRepository;
+            _collegeGalleryRepository = collegeGalleryRepository;
         }
+
 
 
 
@@ -34,7 +37,6 @@ namespace School.Application.Services
         #endregion
 
         #region properties
-
 
         #region college
         public async Task<CreateCollegeResult> CreateCollege(CreateCollegeDTO createProduct)
@@ -50,9 +52,9 @@ namespace School.Application.Services
                 var imageName = Guid.NewGuid().ToString("N") + Path
                     .GetExtension(createProduct.Image.FileName);
                 createProduct.Image.AddImageToServer(imageName,
-                    PathExtentions.AcademyOrginServer
+                    PathExtentions.CollegeOrginServer
                     , 215, 215,
-                    PathExtentions.AcademyThumbServer);
+                    PathExtentions.CollegeThumbServer);
                 result.ImageName = imageName;
             }
             else
@@ -89,7 +91,7 @@ namespace School.Application.Services
             if (editCategory.Image != null && editCategory.Image.IsImage())
             {
                 var imageName = Guid.NewGuid().ToString("N") + Path.GetExtension(editCategory.Image.FileName);
-                editCategory.Image.AddImageToServer(imageName, PathExtentions.AcademyOrginServer, 150, 150, PathExtentions.AcademyThumbServer, college.ImageName);
+                editCategory.Image.AddImageToServer(imageName, PathExtentions.CollegeOrginServer, 150, 150, PathExtentions.CollegeThumbServer, college.ImageName);
 
                 college.ImageName = imageName;
             }
@@ -128,6 +130,54 @@ namespace School.Application.Services
         }
         #endregion
 
+        #region college-gallery
+        public async Task<bool> AddCollegeGallery(int collegeId, List<IFormFile> images)
+        {
+            if (!await _collegeGalleryRepository.CheckCollege(collegeId)) return false;
+            if (images != null && images.Any())
+            {
+                var collegeGallery = new List<CollegeGallery>();
+                foreach (var image in images)
+                {
+                    if (image.IsImage())
+                    {
+                        var imageName = Guid.NewGuid().ToString("N") + Path.GetExtension(image.FileName);
+                        image.AddImageToServer(imageName, PathExtentions.CollegeOrginServer, 150, 150, PathExtentions.CollegeThumbServer);
+
+                        collegeGallery.Add(new CollegeGallery
+                        {
+                            ImageName = imageName,
+                            CollegeId = collegeId,
+                        });
+
+                    }
+                }
+                await _collegeGalleryRepository.AddCollegeGalleries(collegeGallery);
+                return true;
+            }
+            return false;
+
+        }
+
+        public async Task<IList<CollegeGallery>> GetAllCollegeGallries(int collegeId)
+        {
+            return await _collegeGalleryRepository.GetAllCollegeGalleries(collegeId);
+        }
+
+        public async Task<bool> DeleteCollegeGalleryImage(int galleryId)
+        {
+            var collegetgallery = await _collegeGalleryRepository.GetCollegeGalleryImageById(galleryId);
+            if (collegetgallery != null)
+            {
+                UploadImageExtension.DeleteImage(collegetgallery.ImageName, PathExtentions.CollegeOrginServer, PathExtentions.CollegeThumbServer);
+                await _collegeGalleryRepository.DeleteCollegeGalleryImageById(galleryId);
+                return true;
+            }
+
+            return false;
+        }
+
+        #endregion
 
 
 

@@ -16,9 +16,7 @@ namespace School.Application.Interaces
 
         #endregion
 
-        #region Academy
-
-        #endregion
+       
         #region College
         Task<IList<FilteringCollegeDTO>> FilterColleges(RequestParams request );
 
@@ -30,7 +28,25 @@ namespace School.Application.Interaces
         Task<IReadOnlyList<College>> GetAllColleges();
         Task<bool> DeleteCollege(int collegeId);
         #endregion
-        #region Athletic
+
+        #region college-gallery
+        Task<bool> AddCollegeGallery(int collegeId, List<IFormFile> images);
+
+        Task<IList<CollegeGallery>> GetAllCollegeGallries(int collegeId);
+
+        Task<bool> DeleteCollegeGalleryImage(int galleryId);
+
+        #endregion
+        #region top-student
+        //Task<IList<FilteringCollegeDTO>> FilterColleges(RequestParams request);
+
+        //Task<CreateCollegeResult> CreateCollege(CreateCollegeDTO createProduct);
+
+        //Task<EditCollegeDTO> GetEditCollege(int collegeId);
+
+        //Task<EditCollegeResult> EditCollege(EditCollegeDTO editCategory, int collegeId);
+        //Task<IReadOnlyList<College>> GetAllColleges();
+        //Task<bool> DeleteCollege(int collegeId);
 
         #endregion
     }

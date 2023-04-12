@@ -100,7 +100,39 @@ namespace School.WebApi.Areas.Admin.Controllers
         }
         #endregion
 
+        #region college-galleries
+        #region create
+        [HttpPost("{collegeId}")]
+        public async Task<IActionResult> AddImageToCollege(int collegeId,[FromForm] List<IFormFile> images)
+        {
+            var result = await _siteService.AddCollegeGallery(collegeId, images);
+            if (result)
+            {
+                return Ok("با موفقیت اضافه شد");
+            }
+            return NotFound("یافت نشد");
+        }
 
+        #endregion
+        #region edit
+        [HttpGet("gallery/{collegeId}")]
+        public async Task<IActionResult> CollegeGalleries(int collegeId)
+        {
+            var data = await _siteService.GetAllCollegeGallries(collegeId);
+            return Ok(data);
+        }
+        #endregion
+        #region delete
+
+        [HttpDelete("deleteimage/{galleryId}")]
+        public async Task<IActionResult> DeleteImage(int galleryId)
+        {
+            var result=  await _siteService.DeleteCollegeGalleryImage(galleryId);
+            if(result==false) return NotFound("یافت نشد");
+            return Ok("با موفقیت پاک شد");
+        }
+        #endregion
+        #endregion
 
     }
 }

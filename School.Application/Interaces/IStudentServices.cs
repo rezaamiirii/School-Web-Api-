@@ -35,10 +35,7 @@ namespace School.Application.Interaces
         Task<bool> ChangeToSubStudent(int studentId);
         #endregion
 
-        #region Payfee
-
         
-        #endregion
 
     }
 }

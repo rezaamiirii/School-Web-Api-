@@ -10,7 +10,8 @@ namespace School.Domain.Models.College
     public class CollegeGallery:BaseEntity
     {
         #region properties
-        public int NewsId { get; set; }
+        public int CollegeId { get; set; }
+        public string? ImageName { get; set; }
 
         #endregion
 
