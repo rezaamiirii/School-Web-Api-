@@ -6,11 +6,10 @@ using School.Domain.DTOs.Admin.Account;
 
 namespace School.WebApi.Areas.Admin.Controllers
 {
-    [Authorize]
-    [Area("Admin")]
+   
     [Route("api/Student")]
-    [ApiController]
-    public class StudentController : ControllerBase
+   
+    public class StudentController : AdminBaseController
     {
         #region constructor
         private readonly IStudentServices _studentServices;

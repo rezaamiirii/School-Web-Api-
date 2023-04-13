@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using School.Domain.DTOs.Collage;
 using School.Domain.DTOs.Paging;
+using School.Domain.DTOs.TopStudent;
 using School.Domain.Models.College;
+using School.Domain.Models.TopStudent;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,15 +40,15 @@ namespace School.Application.Interaces
 
         #endregion
         #region top-student
-        //Task<IList<FilteringCollegeDTO>> FilterColleges(RequestParams request);
+        Task<IList<FilteringTopStudentsDTO>> FilterTopStudents(RequestParams request);
 
-        //Task<CreateCollegeResult> CreateCollege(CreateCollegeDTO createProduct);
+        Task<CreateTopStudentResult> CreateTopStudent(CreateTopStudentDTO  createTopStudent);
 
-        //Task<EditCollegeDTO> GetEditCollege(int collegeId);
+        Task<EditTopStudentDTO> GetEditTopStudent(int topStudentId);
 
-        //Task<EditCollegeResult> EditCollege(EditCollegeDTO editCategory, int collegeId);
-        //Task<IReadOnlyList<College>> GetAllColleges();
-        //Task<bool> DeleteCollege(int collegeId);
+        Task<EditTopStudentResult> EditTopStudent(EditTopStudentDTO  editTopStudent, int topStudentId);
+        Task<IReadOnlyList<TopStudent>> GetAllTopStudents();
+        Task<bool> DeleteTopStudent(int topStudentId);
 
         #endregion
     }

@@ -8,7 +8,7 @@ namespace School.Application.Utils
 {
     public static class PathExtentions
     {
-        #region user avatar
+        #region College 
 
         public static string CollegeOrgin= "/img/college/orgin/";
         public static string CollegeOrginServer = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/college/orgin/");
@@ -18,15 +18,15 @@ namespace School.Application.Utils
 
         #endregion
 
-        //#region product categories
+        #region Top Student
 
-        //public static string CategoryOrgin = "/img/category/orgin/";
-        //public static string CategoryOrginServer = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/category/orgin/");
+        public static string TopStudentOrgin = "/img/topstudent/orgin/";
+        public static string TopStudentOrginServer = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/topstudent/orgin/");
 
-        //public static string CategoryThumb = "/img/category/Thumb/";
-        //public static string CategoryThumbServer = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/category/Thumb/");
+        public static string TopStudentThumb = "/img/topstudent/Thumb/";
+        public static string TopStudentThumbServer = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/topstudent/Thumb/");
 
-        //#endregion
+        #endregion
 
         //#region product image
         //public static string ProductOrgin = "/img/product/orgin/";

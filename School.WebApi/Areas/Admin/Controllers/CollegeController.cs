@@ -8,11 +8,8 @@ using School.Domain.DTOs.Paging;
 namespace School.WebApi.Areas.Admin.Controllers
 {
 
-    [Authorize]
-    [Area("Admin")]
     [Route("api/College")]
-    [ApiController]
-    public class CollegeController : ControllerBase
+    public class CollegeController : AdminBaseController
     {
 
 
@@ -28,7 +25,7 @@ namespace School.WebApi.Areas.Admin.Controllers
 
         #region filter-college
         [HttpGet("filter")]
-        public async Task<IActionResult> FilterStudents([FromQuery] RequestParams filter)
+        public async Task<IActionResult> FilterColleges([FromQuery] RequestParams filter)
         {
             var results = await _siteService.FilterColleges(filter);
             return Ok(results);
@@ -41,16 +38,16 @@ namespace School.WebApi.Areas.Admin.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> CreateProduct([FromForm] CreateCollegeDTO create)
+        public async Task<IActionResult> CreateCollege([FromForm] CreateCollegeDTO create)
         {
 
             var result = await _siteService.CreateCollege(create);
             switch (result)
             {
                 case CreateCollegeResult.NotImage:
-                    return NotFound("لطفا برای محصول یک تصویر انتخاب کنید");
+                    return NotFound("لطفا برای دانشکده یک تصویر انتخاب کنید");
                 case CreateCollegeResult.Success:
-                    return Ok("عملیات ثبت محصول با موفقیت انجام شد");
+                    return Ok("عملیات ثبت دانشکده با موفقیت انجام شد");
             }
 
             return BadRequest();
@@ -59,7 +56,7 @@ namespace School.WebApi.Areas.Admin.Controllers
 
         #region edit-college
         [HttpGet("{collegeId}")]
-        public async Task<IActionResult> EditProduct(int collegeId)
+        public async Task<IActionResult> EditCollege(int collegeId)
         {
             var editCollege = await _siteService.GetEditCollege(collegeId);
             if (editCollege == null) return NotFound();
@@ -67,7 +64,7 @@ namespace School.WebApi.Areas.Admin.Controllers
         }
 
         [HttpPut("{collegeId}")]
-        public async Task<IActionResult> EditProduct([FromForm]EditCollegeDTO editCollege,int collegeId)
+        public async Task<IActionResult> EditCollege([FromForm]EditCollegeDTO editCollege,int collegeId)
         {
             
                 var result = await _siteService.EditCollege(editCollege,collegeId);
@@ -77,11 +74,11 @@ namespace School.WebApi.Areas.Admin.Controllers
 
                     case EditCollegeResult.NotFound:
                         
-                        return NotFound("محصولی یافت نشد");
+                        return NotFound(" یافت نشد");
 
                     case EditCollegeResult.Success:
                         
-                        return Ok("محصول با موفقیت ویرایش شد");
+                        return Ok(" با موفقیت ویرایش شد");
 
                 }
             return BadRequest();

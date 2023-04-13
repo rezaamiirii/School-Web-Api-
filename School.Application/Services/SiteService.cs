@@ -5,8 +5,10 @@ using School.Application.Interaces;
 using School.Application.Utils;
 using School.Domain.DTOs.Collage;
 using School.Domain.DTOs.Paging;
+using School.Domain.DTOs.TopStudent;
 using School.Domain.Interaces;
 using School.Domain.Models.College;
+using School.Domain.Models.TopStudent;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,14 +22,16 @@ namespace School.Application.Services
         #region constructore
         private readonly ICollegeRepository _collegeRepository;
         private readonly ICollegeGalleryRepository _collegeGalleryRepository;
+        private readonly ITopStudentRepository  _topStudentRepository;
 
         private readonly IMapper _mapper;
 
-        public SiteService(IMapper mapper, ICollegeRepository collegeRepository, ICollegeGalleryRepository collegeGalleryRepository)
+        public SiteService(IMapper mapper, ICollegeRepository collegeRepository, ICollegeGalleryRepository collegeGalleryRepository, ITopStudentRepository topStudentRepository)
         {
             _mapper = mapper;
             _collegeRepository = collegeRepository;
             _collegeGalleryRepository = collegeGalleryRepository;
+            _topStudentRepository = topStudentRepository;
         }
 
 
@@ -177,8 +181,103 @@ namespace School.Application.Services
             return false;
         }
 
+
         #endregion
 
+        #region top-student
+        public async Task<CreateTopStudentResult> CreateTopStudent(CreateTopStudentDTO createTopStudent)
+        {
+            var newTopStudent = new TopStudent();
+
+            var result = _mapper.Map(createTopStudent, newTopStudent);
+
+
+            if (createTopStudent.Image != null && createTopStudent.Image.IsImage())
+            {
+                var imageName = Guid.NewGuid().ToString("N") + Path
+                    .GetExtension(createTopStudent.Image.FileName);
+                createTopStudent.Image.AddImageToServer(imageName,
+                    PathExtentions.TopStudentOrginServer
+                    , 215, 215,
+                    PathExtentions.TopStudentThumbServer);
+                result.ImageName = imageName;
+            }
+            else
+            {
+                return CreateTopStudentResult.NotImage;
+            }
+            await _topStudentRepository.Add(result);
+
+            await _collegeRepository.SaveChanges();
+
+            return CreateTopStudentResult.Success;
+
+        }
+
+        public async Task<EditTopStudentDTO> GetEditTopStudent(int topStudentId)
+        {
+            var topStudent = await _topStudentRepository.Get(topStudentId);
+            if (topStudent != null)
+            {
+                var editTopStudent = new EditTopStudentDTO();
+                editTopStudent.Title = topStudent.Title;
+                editTopStudent.ShortDescription = topStudent.ShortDescription;
+                editTopStudent.Description = topStudent.Description;
+                editTopStudent.ImageName = topStudent.ImageName;
+                return editTopStudent;
+            }
+            return null;
+
+        }
+
+        public async Task<EditTopStudentResult> EditTopStudent(EditTopStudentDTO editTopStudent, int topStudentId)
+        {
+            var topStudent = await _topStudentRepository.Get(topStudentId);
+
+            if (topStudent == null) return EditTopStudentResult.NotFound;
+            topStudent.ShortDescription = editTopStudent.ShortDescription;
+            topStudent.Description = editTopStudent.Description;
+            topStudent.Title = editTopStudent.Title;
+
+
+            if (editTopStudent.Image != null && editTopStudent.Image.IsImage())
+            {
+                var imageName = Guid.NewGuid().ToString("N") + Path.GetExtension(editTopStudent.Image.FileName);
+                editTopStudent.Image.AddImageToServer(imageName, PathExtentions.TopStudentOrginServer, 150, 150, PathExtentions.TopStudentThumbServer, topStudent.ImageName);
+
+                topStudent.ImageName = imageName;
+            }
+            _topStudentRepository.Update(topStudent);
+            await _collegeRepository.SaveChanges();
+
+            return EditTopStudentResult.Success;
+
+
+        }
+
+        public async Task<IReadOnlyList<TopStudent>> GetAllTopStudents()
+        {
+            return await _topStudentRepository.GetAll();
+        }
+
+        public async Task<bool> DeleteTopStudent(int topStudentId)
+        {
+            var topStudent = await _topStudentRepository.Get(topStudentId);
+            if (topStudent == null) return false;
+            await _topStudentRepository.Delete(topStudent);
+            return true;
+
+        }
+
+        public async Task<IList<FilteringTopStudentsDTO>> FilterTopStudents(RequestParams request)
+        {
+            var topStudents = await _topStudentRepository.FilterTopStudent(request);
+            var result = _mapper.Map<IList<FilteringTopStudentsDTO>>(topStudents);
+            return result;
+
+        }
+
+        #endregion
 
 
         #endregion
