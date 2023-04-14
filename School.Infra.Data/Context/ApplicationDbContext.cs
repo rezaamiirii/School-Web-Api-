@@ -2,6 +2,7 @@
 using School.Domain.Models.Academy;
 using School.Domain.Models.Account;
 using School.Domain.Models.College;
+using School.Domain.Models.News;
 using School.Domain.Models.TopStudent;
 using System;
 using System.Collections.Generic;
@@ -48,6 +49,8 @@ namespace Shop.Infra.Data.Context
         public DbSet<Student> Students { get; set; }
         public DbSet<Admin> Admins { get; set; }
         public DbSet<College> Colleges { get; set; }
+        public DbSet<News>  News { get; set; }
+        public DbSet<NewsGallery>   NewsGalleries { get; set; }
         public DbSet<TopStudent>  TopStudents { get; set; }
         public DbSet<CollegeGallery> CollegeGalleries { get; set; }
         public DbSet<Academy>  Academies { get; set; }

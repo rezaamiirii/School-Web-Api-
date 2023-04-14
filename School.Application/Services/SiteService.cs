@@ -4,10 +4,12 @@ using School.Application.Extentions;
 using School.Application.Interaces;
 using School.Application.Utils;
 using School.Domain.DTOs.Collage;
+using School.Domain.DTOs.News;
 using School.Domain.DTOs.Paging;
 using School.Domain.DTOs.TopStudent;
 using School.Domain.Interaces;
 using School.Domain.Models.College;
+using School.Domain.Models.News;
 using School.Domain.Models.TopStudent;
 using System;
 using System.Collections.Generic;
@@ -23,15 +25,17 @@ namespace School.Application.Services
         private readonly ICollegeRepository _collegeRepository;
         private readonly ICollegeGalleryRepository _collegeGalleryRepository;
         private readonly ITopStudentRepository  _topStudentRepository;
+        private readonly INewsRepository  _newsRepository;
 
         private readonly IMapper _mapper;
 
-        public SiteService(IMapper mapper, ICollegeRepository collegeRepository, ICollegeGalleryRepository collegeGalleryRepository, ITopStudentRepository topStudentRepository)
+        public SiteService(IMapper mapper, ICollegeRepository collegeRepository, ICollegeGalleryRepository collegeGalleryRepository, ITopStudentRepository topStudentRepository, INewsRepository newsRepository)
         {
             _mapper = mapper;
             _collegeRepository = collegeRepository;
             _collegeGalleryRepository = collegeGalleryRepository;
             _topStudentRepository = topStudentRepository;
+            _newsRepository = newsRepository;
         }
 
 
@@ -41,6 +45,159 @@ namespace School.Application.Services
         #endregion
 
         #region properties
+
+
+        #region news
+        public async Task<CreateNewsResult> CreateNews(CreateNewsDTO createNews)
+        {
+            if (await _newsRepository.CheckUrlNameNews(createNews.UrlName)) return CreateNewsResult.UrlExist;
+
+
+            var newNews = new News();
+
+            var result = _mapper.Map(createNews, newNews);
+
+
+            if (createNews.Image != null && createNews.Image.IsImage())
+            {
+                var imageName = Guid.NewGuid().ToString("N") + Path
+                    .GetExtension(createNews.Image.FileName);
+                createNews.Image.AddImageToServer(imageName,
+                    PathExtentions.NewsOrginServer
+                    , 215, 215,
+                    PathExtentions.NewsThumbServer);
+                result.ImageName = imageName;
+            }
+            else
+            {
+                return CreateNewsResult.NotImage;
+            }
+            await _newsRepository.Add(result);
+
+            await _newsRepository.SaveChanges();
+
+            return CreateNewsResult.Success;
+
+        }
+
+        public async Task<EditNewsDTO> GetEditNews(int newsId)
+        {
+            var news = await _newsRepository.Get(newsId);
+            if (news != null)
+            {
+                var editNews = new EditNewsDTO();
+                editNews.Title = news.Title;
+                editNews.ShortDescription = news.ShortDescription;
+                editNews.Description = news.Description;
+                editNews.ImageName = news.ImageName;
+                editNews.UrlName = news.UrlName;
+                return editNews;
+            }
+            return null;
+
+        }
+
+        public async Task<EditNewsResult> EditNews(EditNewsDTO editNews, int newsId)
+        {
+            var news = await _newsRepository.Get(newsId);
+
+            if (news == null) return EditNewsResult.NotFound;
+            if (await _newsRepository.CheckUrlNameNews(editNews.UrlName)) return EditNewsResult.UrlExist;
+
+            news.ShortDescription = editNews.ShortDescription;
+            news.Description = editNews.Description;
+            news.Title = editNews.Title;
+            news.UrlName = editNews.UrlName;
+
+
+            if (editNews.Image != null && editNews.Image.IsImage())
+            {
+                var imageName = Guid.NewGuid().ToString("N") + Path.GetExtension(editNews.Image.FileName);
+                editNews.Image.AddImageToServer(imageName, PathExtentions.NewsOrginServer, 150, 150, PathExtentions.NewsThumbServer, news.ImageName);
+
+                news.ImageName = imageName;
+            }
+            _newsRepository.Update(news);
+            await _newsRepository.SaveChanges();
+
+            return EditNewsResult.Success;
+
+
+        }
+
+        public async Task<IReadOnlyList<News>> GetAllNewses()
+        {
+            return await _newsRepository.GetAll();
+        }
+
+        public Task<bool> DeleteNews(int newsId)
+        {
+            return _newsRepository.DeleteNews(newsId);
+        }
+
+        public async Task<IList<FilteringNewsDTO>> FilterNewses(RequestParams request)
+        {
+            var newses = await _newsRepository.FilterNews(request);
+            var result = _mapper.Map<IList<FilteringNewsDTO>>(newses);
+            return result;
+
+        }
+
+
+
+        #endregion
+
+        #region news-gallery
+        public async Task<bool> AddNewsGallery(int newsId, List<IFormFile> images)
+        {
+            if (!await _newsRepository.CheckNews(newsId)) return false;
+            if (images != null && images.Any())
+            {
+                var newsGallery = new List<NewsGallery>();
+                foreach (var image in images)
+                {
+                    if (image.IsImage())
+                    {
+                        var imageName = Guid.NewGuid().ToString("N") + Path.GetExtension(image.FileName);
+                        image.AddImageToServer(imageName, PathExtentions.NewsOrginServer, 150, 150, PathExtentions.NewsThumbServer);
+
+                        newsGallery.Add(new NewsGallery
+                        {
+                            ImageName = imageName,
+                            NewsId = newsId,
+                        });
+
+                    }
+                }
+                await _newsRepository.AddNewsGalleries(newsGallery);
+                return true;
+            }
+            return false;
+
+
+        }
+
+        public async Task<IList<NewsGallery>> GetAllNewsGallries(int newsId)
+        {
+            return await _newsRepository.GetAllNewsGalleries(newsId);
+        }
+
+        public async Task<bool> DeleteNewsGalleryImage(int galleryId)
+        {
+            var newsgallery = await _newsRepository.GetNewsGalleryImageById(galleryId);
+            if (newsgallery != null)
+            {
+                UploadImageExtension.DeleteImage(newsgallery.ImageName, PathExtentions.NewsOrginServer, PathExtentions.NewsThumbServer);
+                await _newsRepository.DeleteNewsGalleryImageById(galleryId);
+                return true;
+            }
+
+            return false;
+
+        }
+
+
+        #endregion
 
         #region college
         public async Task<CreateCollegeResult> CreateCollege(CreateCollegeDTO createProduct)
@@ -276,6 +433,8 @@ namespace School.Application.Services
             return result;
 
         }
+
+       
 
         #endregion
 

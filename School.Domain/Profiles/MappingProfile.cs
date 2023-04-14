@@ -2,9 +2,11 @@
 using School.Domain.DTOs.Admin.Account;
 using School.Domain.DTOs.Collage;
 using School.Domain.DTOs.MapperDTO;
+using School.Domain.DTOs.News;
 using School.Domain.DTOs.Student;
 using School.Domain.Models.Account;
 using School.Domain.Models.College;
+using School.Domain.Models.News;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +27,9 @@ namespace School.Domain.Profiles
             CreateMap<College, CreateCollegeDTO>().ReverseMap();
             CreateMap<College, EditCollegeDTO>().ReverseMap();
             CreateMap<College, FilteringCollegeDTO>().ReverseMap();
+            CreateMap<News, EditNewsDTO>().ReverseMap();
+            CreateMap<News, FilteringNewsDTO>().ReverseMap();
+            CreateMap<News, CreateNewsDTO>().ReverseMap();
         }
     }
 }

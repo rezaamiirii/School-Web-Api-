@@ -28,14 +28,14 @@ namespace School.Application.Utils
 
         #endregion
 
-        //#region product image
-        //public static string ProductOrgin = "/img/product/orgin/";
-        //public static string ProductOrginServer = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/product/orgin/");
+        #region news 
+        public static string NewsOrgin = "/img/news/orgin/";
+        public static string NewsOrginServer = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/news/orgin/");
 
-        //public static string ProductThumb = "/img/product/Thumb/";
-        //public static string ProductThumbServer = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/product/Thumb/");
+        public static string NewsThumb = "/img/news/Thumb/";
+        public static string NewsThumbServer = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/news/Thumb/");
 
-        //#endregion
+        #endregion
 
         //#region slider image
 

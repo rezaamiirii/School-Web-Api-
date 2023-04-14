@@ -40,11 +40,11 @@ namespace School.Infra.Data.Repositories
 
         public async Task DeleteCollegeGalleryImageById(int id)
         {
-            var cuurentproductgallery = await _context.CollegeGalleries.SingleOrDefaultAsync(i => i.Id == id);
-            if (cuurentproductgallery != null)
+            var cuurentCollegegallery = await _context.CollegeGalleries.SingleOrDefaultAsync(i => i.Id == id);
+            if (cuurentCollegegallery != null)
             {
-                cuurentproductgallery.IsDelete = true;
-                _context.CollegeGalleries.Update(cuurentproductgallery);
+                cuurentCollegegallery.IsDelete = true;
+                _context.CollegeGalleries.Update(cuurentCollegegallery);
                 await _context.SaveChangesAsync();
             }
 
