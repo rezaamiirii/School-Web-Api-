@@ -30,7 +30,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddControllers()
     .AddFluentValidation(option => option.RegisterValidatorsFromAssemblyContaining<RegisterStudentDto>())
-    .AddFluentValidation(option => option.RegisterValidatorsFromAssemblyContaining<LoginStudentDTO>())
+    .AddFluentValidation(option => option.RegisterValidatorsFromAssemblyContaining<LoginDTO>())
     .AddFluentValidation(option => option.RegisterValidatorsFromAssemblyContaining<ActiveAccountDTO>())
     .AddFluentValidation(option => option.RegisterValidatorsFromAssemblyContaining<ResetPasswordDTO>());
 

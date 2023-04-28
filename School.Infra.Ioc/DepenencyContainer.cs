@@ -21,6 +21,7 @@ namespace Shop.Infra.IoC
             services.AddScoped<ICollegeGalleryRepository, CollegeGalleryRepository>();
             services.AddScoped<ITopStudentRepository, TopStudentRepository>();
             services.AddScoped<INewsRepository, NewsRepository>();
+            services.AddScoped<IAdminRepository, AdminRepository>();
             #endregion
 
             #region Tools

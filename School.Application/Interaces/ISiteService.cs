@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
+using School.Domain.DTOs.Admin.Account;
 using School.Domain.DTOs.Collage;
 using School.Domain.DTOs.News;
 using School.Domain.DTOs.Paging;
+using School.Domain.DTOs.Student;
 using School.Domain.DTOs.TopStudent;
+using School.Domain.Models.Account;
 using School.Domain.Models.College;
 using School.Domain.Models.News;
 using School.Domain.Models.TopStudent;
@@ -16,6 +19,11 @@ namespace School.Application.Interaces
 {
     public interface ISiteService
     {
+        #region admin-login
+        Task<LoginAdminResult> LoginAdmin(LoginAdminDTO login);
+        Task<Admin> GetAdminByPhoneNumber(string phoneNumber);
+        #endregion
+
         #region News
         Task<IList<FilteringNewsDTO>> FilterNewses(RequestParams request);
 

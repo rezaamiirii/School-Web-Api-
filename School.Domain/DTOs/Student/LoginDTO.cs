@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace School.Domain.DTOs.Student
 {
-    public class LoginStudentDTO
+    public class LoginDTO
     {
         public string StudentPhoneNumber { get; set; }
         public string Password { get; set; }

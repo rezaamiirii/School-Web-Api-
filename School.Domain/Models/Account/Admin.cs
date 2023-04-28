@@ -15,6 +15,13 @@ namespace School.Domain.Models.Account
         public string? LastName { get; set; }
         public string? PhoneNumber { get; set; }
         public string? Password { get; set; }
+        public string? Role { get; set; }
         public bool IsAdmin { get; set; }
+
+
+        #region relations
+       
+
+        #endregion
     }
 }

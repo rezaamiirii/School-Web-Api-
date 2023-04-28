@@ -77,7 +77,7 @@ namespace School.Application.Services
 
 
 
-        public async Task<LoginStudentResult> LoginStudent(LoginStudentDTO loginStudent)
+        public async Task<LoginStudentResult> LoginStudent(LoginDTO loginStudent)
         {
             var user = await _studentRepository.GetStudentByPhoneNumber(loginStudent.StudentPhoneNumber);
 

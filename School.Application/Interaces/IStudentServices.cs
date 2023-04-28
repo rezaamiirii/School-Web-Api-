@@ -8,7 +8,7 @@ namespace School.Application.Interaces
     {
         #region account
         Task<RegisterStudentResult> RegisterStudent(RegisterStudentDto register);
-        Task<LoginStudentResult> LoginStudent(LoginStudentDTO loginStudent);
+        Task<LoginStudentResult> LoginStudent(LoginDTO loginStudent);
         Task<Student> GetStudentByPhoneNumber(string number);
         Task<Student> GetStudentById(int studentId);
         Task<ActiveAccountResult> ActiveAccount(ActiveAccountDTO activeAccount);

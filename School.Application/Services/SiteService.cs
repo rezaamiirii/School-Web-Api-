@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Http;
 using School.Application.Extentions;
 using School.Application.Interaces;
 using School.Application.Utils;
+using School.Domain.DTOs.Admin.Account;
 using School.Domain.DTOs.Collage;
 using School.Domain.DTOs.News;
 using School.Domain.DTOs.Paging;
+using School.Domain.DTOs.Student;
 using School.Domain.DTOs.TopStudent;
 using School.Domain.Interaces;
 using School.Domain.Models.College;
@@ -26,16 +28,18 @@ namespace School.Application.Services
         private readonly ICollegeGalleryRepository _collegeGalleryRepository;
         private readonly ITopStudentRepository  _topStudentRepository;
         private readonly INewsRepository  _newsRepository;
+        private readonly IAdminRepository   _adminRepository;
 
         private readonly IMapper _mapper;
 
-        public SiteService(IMapper mapper, ICollegeRepository collegeRepository, ICollegeGalleryRepository collegeGalleryRepository, ITopStudentRepository topStudentRepository, INewsRepository newsRepository)
+        public SiteService(IMapper mapper, ICollegeRepository collegeRepository, ICollegeGalleryRepository collegeGalleryRepository, ITopStudentRepository topStudentRepository, INewsRepository newsRepository, IAdminRepository adminRepository)
         {
             _mapper = mapper;
             _collegeRepository = collegeRepository;
             _collegeGalleryRepository = collegeGalleryRepository;
             _topStudentRepository = topStudentRepository;
             _newsRepository = newsRepository;
+            _adminRepository = adminRepository;
         }
 
 
@@ -46,6 +50,32 @@ namespace School.Application.Services
 
         #region properties
 
+        #region login-admin
+        public async Task<LoginAdminResult> LoginAdmin(LoginAdminDTO login)
+        {
+            var admin = await _adminRepository.GetadminByPhoneNumber(login.AdminPhoneNumber);
+
+            if (admin.IsAdmin)
+            {
+                        if (login.Password == admin.Password)
+                        {
+                            return LoginAdminResult.Success;
+                        }
+                        return LoginAdminResult.NotFound;
+                   
+            }
+            return LoginAdminResult.NotFound;
+        }
+
+        public async Task<Domain.Models.Account.Admin> GetAdminByPhoneNumber(string phoneNumber)
+        {
+           return await _adminRepository.GetadminByPhoneNumber(phoneNumber);
+        }
+
+
+
+
+        #endregion
 
         #region news
         public async Task<CreateNewsResult> CreateNews(CreateNewsDTO createNews)
@@ -435,7 +465,6 @@ namespace School.Application.Services
         }
 
        
-
         #endregion
 
 

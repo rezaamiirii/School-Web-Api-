@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using School.Application.Interaces;
 using School.Domain.Models.Academy;
 using School.Domain.Models.Account;
 using School.Domain.Models.College;
@@ -15,9 +16,10 @@ namespace Shop.Infra.Data.Context
     public class ApplicationDbContext :DbContext
     {
         #region constructor
+       
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-
+            
         }
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -29,10 +31,11 @@ namespace Shop.Infra.Data.Context
                     FirstName="Arash",
                     LastName="Ghanavati",
                     IsDelete=false,
-                    Password="A66106518@",
+                    Password= "A66106518@",
                     PhoneNumber="09163008552",
                     CreateDate=DateTime.Now,
                     IsAdmin=true,
+                    Role="Admin"
 
                 });
 
