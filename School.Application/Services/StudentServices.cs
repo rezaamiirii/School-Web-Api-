@@ -66,7 +66,7 @@ namespace School.Application.Services
 
                     await _studentRepository.AddStudent(student);
                     await _studentRepository.SaveChanges();
-                   // await _smsService.SendVerificationCode(student.StudentPhoneNumber,student.MobileActiveCode);
+                    await _smsService.SendVerificationCode(student.StudentPhoneNumber,student.MobileActiveCode);
                     return RegisterStudentResult.Success;
 
                 }

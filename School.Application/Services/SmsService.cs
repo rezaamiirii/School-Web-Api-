@@ -12,7 +12,7 @@ namespace School.Application.Services
         {
             Kavenegar.KavenegarApi api = new Kavenegar.KavenegarApi(apiKey);
 
-            await api.VerifyLookup(mobile, activeCode, "FHMobin");
+            await api.VerifyLookup(mobile, activeCode, "HfMobinSchool");
         }
         #endregion
 

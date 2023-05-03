@@ -38,15 +38,6 @@ namespace School.WebApi.Controllers
         public async Task<IActionResult> Register([FromBody] RegisterStudentDto register)
         {
 
-            //#region captcha Validator
-            //if (!await _captchaValidator.IsCaptchaPassedAsync(register.Token))
-            //{
-            //    return BadRequest("کد کپچای شما معتبر نمیباشد");
-            //}
-            //#endregion
-
-
-
 
             var result = await _studentServices.RegisterStudent(register);
             switch (result)
@@ -58,7 +49,8 @@ namespace School.WebApi.Controllers
                     return BadRequest("کد ملی قبلا در سایت موجود است");
 
                 case RegisterStudentResult.Success:
-                    return Ok();
+
+                    return Ok(register.StudentPhoneNumber);
 
             }
             return BadRequest();
@@ -103,6 +95,7 @@ namespace School.WebApi.Controllers
                     return BadRequest("حساب شما توسط واحد پشتیبانی مسدود شده است");
                 case LoginStudentResult.Success:
 
+                   
                     #region mizfa
                     return Ok(await GenerateNewToken(login.StudentPhoneNumber));
                     #endregion
@@ -214,27 +207,11 @@ namespace School.WebApi.Controllers
 
         #region activate-account
 
-        [HttpGet("active-account/{mobile}")]
-        public async Task<IActionResult> ActiveAccount(string mobile)
+      
+        [HttpPost("active-account")]
+        public async Task<IActionResult> ActiveAccount([FromBody] ActiveAccountDTO active)
         {
-            if (User.Identity.IsAuthenticated) return Redirect("/");
-            var activeaccount = new ActiveAccountDTO()
-            {
-                PhoneNumber = mobile,
-            };
-            return Ok(activeaccount);
-        }
-        [HttpPost("active-account/{mobile}")]
-        public async Task<IActionResult> ActiveAccount(ActiveAccountDTO active)
-        {
-            #region captcha Validator
-            //if (!await _captchaValidator.IsCaptchaPassedAsync(active.Token))
-            //{
-            //    TempData[ErrorMessage] = "کد کپچای شما معتبر نمیباشد";
-            //    return View(active);
-            //}
-            #endregion
-
+           
 
             var result = await _studentServices.ActiveAccount(active);
             switch (result)
@@ -258,16 +235,10 @@ namespace School.WebApi.Controllers
         #region forget pass
 
 
-        [HttpPost("forget-pass"),]
+        [HttpPost("forget-pass")]
         public async Task<IActionResult> ForgetPass(ForgetPasswordDTO forgetPassword)
         {
-            #region captcha Validator
-            //if (!await _captchaValidator.IsCaptchaPassedAsync(forgetPassword.Token))
-            //{
-            //    TempData[ErrorMessage] = "کد کپچای شما معتبر نمیباشد";
-            //    return View(forgetPassword);
-            //}
-            #endregion
+           
 
             var result = await _studentServices.ForgetPass(forgetPassword);
             switch (result)
@@ -284,27 +255,13 @@ namespace School.WebApi.Controllers
 
         #endregion
         #region reset-pass
-        [HttpGet("reset-forget-pass/{mobileActiveCode}")]
-        public async Task<IActionResult> ResetPassBFromForgetPassword(string mobileActiveCode)
+       
+        [HttpPost("reset-forget-pass")]
+        public async Task<IActionResult> ResetPassBFromForgetPassword( [FromBody] ResetPasswordDTO resetPassword)
         {
-            var student = await _studentServices.GetStudentByMobileActiveCode(mobileActiveCode);
+           
 
-            if (student == null) return NotFound();
-
-            return Ok();
-        }
-        [HttpPost("reset-forget-pass/{mobileActiveCode}")]
-        public async Task<IActionResult> ResetPassBFromForgetPassword(string mobileActiveCode, [FromBody] ResetPasswordDTO resetPassword)
-        {
-            #region captcha Validator
-            //if (!await _captchaValidator.IsCaptchaPassedAsync(resetPassword.Token))
-            //{
-            //    TempData[ErrorMessage] = "کد کپچای شما معتبر نمیباشد";
-            //    return View(resetPassword);
-            //}
-            #endregion
-
-            var result = await _studentServices.ResettPasswordFromForget(resetPassword, mobileActiveCode);
+            var result = await _studentServices.ResettPasswordFromForget(resetPassword, resetPassword.MobileActiveCode);
 
             switch (result)
             {

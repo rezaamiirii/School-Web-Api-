@@ -49,50 +49,9 @@ RegisterServices(builder.Services);
 builder.Services.AddHttpClient<ICaptchaValidator, GoogleReCaptchaValidator>();
 #endregion
 
+
+
 #region token
-//var secretKey = builder.Configuration.GetValue<string>("TokenKey");
-//var tokenTimeOut = builder.Configuration.GetValue<int>("TokenTimeOut");
-
-//var key = Encoding.UTF8.GetBytes(secretKey);
-
-//builder.Services.AddAuthentication(x =>
-//{
-//    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-//    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-//})
-//.AddJwtBearer(x =>
-//{
-//    x.RequireHttpsMetadata = false;
-//    x.SaveToken = true;
-//    x.TokenValidationParameters = new TokenValidationParameters
-//    {
-//        //برای کنترل زمان توکن
-//        ClockSkew = TimeSpan.FromMinutes(tokenTimeOut),
-//        ValidateLifetime = true,
-//        ValidateIssuerSigningKey = true,
-//        IssuerSigningKey = new SymmetricSecurityKey(key),
-//        ValidateIssuer = false,
-//        ValidateAudience = false
-//    };
-//});
-#endregion
-
-//builder.Services.AddAuthentication("Bearer")
-//    .AddJwtBearer(options =>
-//    {
-//        options.TokenValidationParameters = new()
-//        {
-//            ValidateIssuer = true,
-//            ValidateAudience = true,
-//            ValidateIssuerSigningKey = true,
-//            ValidIssuer = builder.Configuration["Authentication:Issuer"],
-//            ValidAudience = builder.Configuration["Authentication:Audience"],
-//            IssuerSigningKey = new SymmetricSecurityKey(
-//                Encoding.ASCII.GetBytes(builder.Configuration["Authentication:SecretForKey"]))
-//        };
-//    }
-//    );
-#region mizfa
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -128,8 +87,6 @@ builder.Services.AddAuthentication(options =>
                  options.TokenValidationParameters = validationParameters;
              });
 #endregion
-
-
 
 
 
